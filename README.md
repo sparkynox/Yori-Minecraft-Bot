@@ -1,106 +1,133 @@
-# Yori — Minecraft Bot 🤖✨
+<div align="center">
 
-AI-powered Minecraft bot with Groq brain, cracked server support, mining, PvP, auto-eat, auto-armor and more.
+<img src="https://textures.minecraft.net/texture/c0d467cf5224b9426091ad8036dfa01ce1b9a731c686481d084fb08cfa9dd32b" width="120" height="120" style="border-radius: 12px" />
 
----
+# YoriAI 🌸✨
+### Minecraft Bot — Version 4.6
 
-## Install (Termux / Linux)
+**Groq AI • Auto-Login • PvP • Guard • Auto-Eat • Auto-Armor**
 
-```bash
-# Termux
-pkg install nodejs -y
+*Made with 💕 by SparkyNox*
 
-# Linux
-# Make sure Node.js 18+ is installed
-
-npm install
-```
-
----
-
-## Setup
-
-Edit the `CONFIG` block at the top of `index.js`:
-
-```js
-host:       'localhost',       // your server IP
-port:        25565,            // your server port
-version:    '1.20.1',         // match your server version
-botName:    'Yori',
-auth:       'offline',         // 'offline' = cracked server
-owner:      'SparkyNox',       // only this player can command the bot
-groqApiKey: 'YOUR_KEY_HERE',   // get free key at console.groq.com
-```
-
-Then run:
-
-```bash
-node index.js
-```
-
----
-
-## Commands (prefix `!`)
-
-| Command | What it does |
-|---|---|
-| `!Yori mine some diamonds` | Mines 10 diamonds using AI task parsing |
-| `!mine 32 iron` | Mines 32 iron ore |
-| `!collect 64 wood` | Collects 64 wood logs |
-| `!follow me` / `!come` | Follows SparkyNox |
-| `!goto spawn` | Pathfinds to 0,0 |
-| `!killaura on` | Enables PvP KillAura (test mode) |
-| `!killaura off` | Disables KillAura |
-| `!equip armor` | Equips best available armor |
-| `!status` | Shows HP, food, mining, killaura state |
-| `!inventory` | Lists inventory items |
-| `!stop` | Stops all tasks |
-| `!<anything>` | Groq AI responds naturally |
+</div>
 
 ---
 
 ## Features
 
-### 🧠 Groq AI Brain
-Every command goes through Groq's LLaMA-3 model. It understands natural language — `!Yori mine some diamonds` works the same as `!mine diamond 10`.
+| Feature | Details |
+|---|---|
+| 🧠 **Groq AI Chat** | Talk to bot using `@YoriAI <message>` |
+| 🔐 **Auto Login** | `/register` + `/login` with 5s spawn delay |
+| 🎨 **Auto Skin** | Sets Yori's skin on every join |
+| ⚔️ **PvP / Fight Back** | Hit the bot → it fights back and follows attacker |
+| 🛡️ **Guard Mode** | Guards your position, attacks nearby mobs |
+| 🛡️ **Auto Armor** | Equips best armor every 6s automatically |
+| 🍗 **Auto Eat** | Eats when HP ≤ 4 hearts or food ≤ 7 shanks |
+| 🏃 **Follow** | Follows a player on command |
+| 🔄 **Auto Reconnect** | Reconnects in 8s on kick/disconnect |
+| 💥 **Crash Protection** | `uncaughtException` + `unhandledRejection` handled |
 
-### 👑 Owner Lock
-Only `SparkyNox` can give commands. Anyone else gets:
-> "Sorry Sir, but my Owner is SparkyNox 💕"
+---
 
-### ⛏️ Smart Mining
-Supports all ores: diamond, iron, gold, coal, emerald, redstone, lapis, netherite. Bot pathfinds to ore, digs, and wanders to find more if needed.
+## Setup
 
-### ⚔️ KillAura (Test Mode)
-Attacks nearby mobs and non-owner players within 4 blocks every 800ms. Toggle with `!killaura on/off`.
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Add your Groq API key in index.js
+GROQ_API_KEY = 'your-key-here'   # free at console.groq.com
+
+# 3. Run
+npm start
+```
+
+---
+
+## Configuration
+
+Edit the top of `index.js`:
+
+```js
+const HOST     = 'bladeheartsmp.falix.gg'  // server IP
+const PORT     = 25565
+const USERNAME = 'YoriAI'
+const PASSWORD = 'Passing67'               // /register & /login password
+const OWNER    = 'SparkyNox'
+const PREFIX   = '@YoriAI'                // AI chat prefix
+
+const GROQ_API_KEY      = 'YOUR_KEY'
+const GROQ_MODEL        = 'llama-3.1-8b-instant'
+const SPAWN_CHAT_DELAY  = 5000            // 5s delay after spawn
+const ARMOR_EQUIP_DELAY = 6000            // auto armor every 6s
+```
+
+---
+
+## Commands
+
+| Command | What it does |
+|---|---|
+| `@YoriAI <message>` | Groq AI replies (anyone can use) |
+| `armor` | Equips best armor from inventory |
+| `guard` | Guards your position, attacks nearby mobs |
+| `fight me` | Bot attacks you (PvP test) |
+| `follow me` / `come` | Bot follows you |
+| `stop` | Stops all tasks |
+| `status` | Shows HP and food level |
+
+---
+
+## Auto Behaviors
+
+### 🔐 Spawn Login Sequence
+```
+Bot joins server
+  ↓  5s delay
+/register Passing67 Passing67
+  ↓  3s delay
+/login Passing67
+  ↓  1.5s delay
+/skin <Yori skin URL>
+  ↓  1.5s delay
+"YoriAI is Online ✨"
+```
+
+### ⚔️ Hit Back
+When any player or mob hits the bot → bot **instantly fights back** and **follows the attacker** until it's dead or stopped.
 
 ### 🛡️ Auto Armor
-Every 10 seconds, bot checks inventory and equips the best available armor with a 3–5s human-like delay between each piece.
+Every **6 seconds**, bot checks inventory and equips the best available armor automatically.
+Priority: Netherite → Diamond → Iron → Golden → Chainmail → Leather
 
 ### 🍗 Auto Eat
-- Eats when food ≤ 14 (7 shanks) OR HP ≤ 8 (4 hearts)
-- Prioritizes best food first (cooked beef, golden apple, etc.)
+Triggers when:
+- Food ≤ 14 points (7 shanks)
+- HP ≤ 8 (4 hearts)
 
-### 🏃 Run Away
-When HP ≤ 6 AND no food in inventory, bot runs 32 blocks away from the nearest threat automatically.
+Food priority: Cooked Beef → Golden Apple → Bread → Carrot → etc.
 
-### 🔄 Auto Reconnect
-Bot reconnects automatically if kicked or disconnected.
+---
+
+## Dependencies
+
+| Package | Purpose |
+|---|---|
+| `mineflayer` | Core Minecraft bot engine |
+| `mineflayer-pvp` | PvP combat system |
+| `mineflayer-pathfinder` | Pathfinding & movement |
+| `mineflayer-armor-manager` | Auto armor equipping |
+| `groq-sdk` | Groq AI API |
 
 ---
 
 ## Getting a Free Groq API Key
 
-1. Go to https://console.groq.com
-2. Sign up (free)
+1. Visit **https://console.groq.com**
+2. Sign up (free, no credit card)
 3. Create an API key
-4. Paste it into `groqApiKey` in `index.js`
-
----
-
-## Supported Minecraft Versions
-
-Works with any offline/cracked server. Set `version` in CONFIG to match your server (e.g. `1.20.1`, `1.19.4`, `1.18.2`).
+4. Paste it into `GROQ_API_KEY` in `index.js`
 
 ---
 
@@ -108,8 +135,14 @@ Works with any offline/cracked server. Set `version` in CONFIG to match your ser
 
 | Problem | Fix |
 |---|---|
-| Bot won't connect | Check host/port/version in CONFIG |
-| "Invalid session" | Make sure server has `online-mode=false` |
-| Download fails in mining | Update yt-dlp (not needed here, ignore) |
-| Groq errors | Check API key is valid at console.groq.com |
-| Bot stuck pathfinding | Use `!stop` to reset |
+| Bot kicked instantly | Check server version in mineflayer |
+| Armor not equipping | Make sure `mineflayer-armor-manager` is installed |
+| Groq not responding | Verify API key at console.groq.com |
+| "Same username playing" | Increase reconnect delay to 10s+ |
+| Bot not eating | Make sure food items are in inventory |
+
+---
+
+<div align="center">
+<b>YoriAI v4.6 — Made with 💕 by SparkyNox</b>
+</div>
