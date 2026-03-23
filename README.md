@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://textures.minecraft.net/texture/c0d467cf5224b9426091ad8036dfa01ce1b9a731c686481d084fb08cfa9dd32b" width="120" height="120" style="border-radius: 12px" />
+<img src="https://i.postimg.cc/pTPS6VJW/IMG-20260321-114645-622.jpg" width="120" height="120" style="border-radius: 12px" />
 
 # YoriAI 🌸✨
 ### Minecraft Bot — Version 4.6
