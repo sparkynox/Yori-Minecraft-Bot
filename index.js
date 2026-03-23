@@ -7,14 +7,14 @@ const Groq           = require('groq-sdk')
 /* ============================================================
    CONFIG
    ============================================================ */
-const HOST     = 'dragonnova.aternos.me'
+const HOST     = 'YOUR_SERVER_IP'
 const PORT     = 25565
-const USERNAME = 'YoriAI'               // ← updated
+const USERNAME = 'YoriAI'               // ← bot name
 const PASSWORD = 'Passing67'
 const OWNER    = 'SparkyNox'            // only owner gets Groq AI replies
 const PREFIX   = '@YoriAI'             // prefix to talk to bot
 
-const GROQ_API_KEY = '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'  // ← CHANGE THIS
+const GROQ_API_KEY = 'your_api_key'  // ← CHANGE THIS
 const GROQ_MODEL   = 'llama-3.1-8b-instant'
 
 const SPAWN_CHAT_DELAY = 5000   // 5s delay after spawn before any chat
